@@ -135,6 +135,7 @@ int				mlx_int_get_visual(t_xvar *xvar);
 int				mlx_int_set_win_event_mask(t_xvar *xvar);
 int				mlx_int_str_str_cote(char *str,char *find,int len);
 int				mlx_int_str_str(char *str,char *find,int len);
-
+int				mlx_ext_fullscreen(t_xvar *xvar, t_win_list *win, int fullscreen);
+int				mlx_flush_event(t_xvar *xvar);
 
 #endif

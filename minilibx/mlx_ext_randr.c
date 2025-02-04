@@ -48,17 +48,25 @@ int			mlx_ext_fullscreen(t_xvar *xvar, t_win_list *win, int fullscreen)
     }
   
   idx_candidate = -1;
-  i = o_info->nmode;
-  while (i--)
+int max_width = 0, max_height = 0;
+
+i = o_info->nmode;
+while (i--)
+{
+    j = res->nmode;
+    while (j--)
     {
-      j = res->nmode;
-      while (j--)
-	if (res->modes[j].id == o_info->modes[i])
-	  if (res->modes[j].width >= watt.width && res->modes[j].height >= watt.height &&
-	      (idx_candidate == -1 || res->modes[idx_candidate].width > res->modes[j].width ||
-	       res->modes[idx_candidate].height > res->modes[j].height) )
-	    idx_candidate = i;
+        if (res->modes[j].id == o_info->modes[i])
+        {
+            if (res->modes[j].width > max_width || res->modes[j].height > max_height)
+            {
+                max_width = res->modes[j].width;
+                max_height = res->modes[j].height;
+                idx_candidate = i;
+            }
+        }
     }
+}
   if (idx_candidate < 0)
     {
       XRRFreeOutputInfo(o_info);
