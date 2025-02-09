@@ -39,11 +39,20 @@ int main(int argc,char **argv)
         return (0);
 
     t_game *game;
+    int color;
 
     game = init_game(argv);
     if (!game)
-        return (-1);
+    return (-1);
     game->ptr_win = mlx_new_window(game->mlx, game->screen_x, game->screen_y, "mario");
+    color = mlx_get_color_value(game->mlx, 0x0000FF);
+    for (int y = 0; y < game->screen_y; y++)
+    {
+        for (int x = 0; x < game->screen_x; x++)
+        {
+            mlx_pixel_put(game->mlx, game->ptr_win, x, y, color);
+        }
+    }
     mlx_loop(game->mlx);
 
 }
