@@ -1,5 +1,54 @@
 #include "so_long.h"
 
+void    write_map(t_game *game)
+{
+    int fd;
+    int x = 0;
+    int y = 0;
+    int img_width = 0;
+    int img_height = 0;
+    char    *line;
+
+    fd = open(game->file_name, O_RDONLY);
+    if (fd < 0)
+        shut_program_error(game);
+    game->wall_img = mlx_xpm_file_to_image(game->mlx, "image/wall.xpm", &img_width, &img_height);
+    game->ground_img = mlx_xpm_file_to_image(game->mlx, "image/back_ground.xpm", &img_width, &img_height);
+    game->collect_img = mlx_xpm_file_to_image(game->mlx, "image/coin.xpm", &img_width, &img_height);
+    game->exit_img = mlx_xpm_file_to_image(game->mlx, "image/exit.xpm", &img_width, &img_height);
+    game->trap_img = mlx_xpm_file_to_image(game->mlx, "image/trap.xpm", &img_width, &img_height);
+        
+        if (!game->wall_img || !game->ground_img || !game->collect_img || !game->exit_img || !game->trap_img)
+    {
+        close(fd);
+        shut_program_error(game);
+    }
+    line = get_next_line(fd);
+    while (line != NULL)
+    {
+        x = 0;
+        while (line[x] != '\0')
+        {
+            if (line[x] == '1')
+                mlx_put_image_to_window(game->mlx, game->ptr_win, game->wall_img, x*64, y*64);
+            else if (line[x] == '0')
+                mlx_put_image_to_window(game->mlx, game->ptr_win, game->ground_img, x*64, y*64);
+            else if (line[x] == 'C')
+                mlx_put_image_to_window(game->mlx, game->ptr_win, game->collect_img, x*64, y*64);
+            else if (line[x] == 'E')
+                mlx_put_image_to_window(game->mlx, game->ptr_win, game->exit_img, x*64, y*64);
+            else if (line[x] == 'P')
+                mlx_put_image_to_window(game->mlx, game->ptr_win, game->trap_img, x*64, y*64);
+            x++;
+        }
+        free(line);
+        line = get_next_line(fd);
+        printf("%d", y);
+        y++;
+    }
+    close(fd);
+}
+
 char **read_map(t_game *game)
 {
     char    **map;
@@ -11,13 +60,15 @@ char **read_map(t_game *game)
     row_num = count_row(game);
     map = ft_calloc(row_num + 1, sizeof(char *));
     if (!map)
-    shut_program_error(game);
-    fd = open(game->file_name, O_RDONLY, 0777);
+        shut_program_error(game);
+    fd = open(game->file_name, O_RDONLY);
+    if (fd < 0)
+        shut_program_error(game);
     while (++i < row_num)
         map[i] = get_next_line(fd);
     close(fd);
     game->screen_y = row_num * size;
-    game->screen_x = ft_strlen(map[0]) * size;
+    game->screen_x = strlen(map[0]) * size;
     return (map);
 }
 t_game *init_game(char **argv)
@@ -29,30 +80,27 @@ t_game *init_game(char **argv)
         return (NULL);
     new->file_name = argv[1];
     new->mlx = mlx_init();
+    if (!new->mlx)
+        shut_program_error(new);
     new->map = read_map(new);
+    if (!new->map)
+        shut_program_error(new);
     return (new);
 }
 
 int main(int argc,char **argv)
 {
     if(argc != 2)
-        return (0);
+        return (1);
 
     t_game *game;
-    int color;
 
     game = init_game(argv);
     if (!game)
-    return (-1);
+        return (-1);
     game->ptr_win = mlx_new_window(game->mlx, game->screen_x, game->screen_y, "mario");
-    color = mlx_get_color_value(game->mlx, 0x0000FF);
-    for (int y = 0; y < game->screen_y; y++)
-    {
-        for (int x = 0; x < game->screen_x; x++)
-        {
-            mlx_pixel_put(game->mlx, game->ptr_win, x, y, color);
-        }
-    }
+    if (!game->ptr_win)
+        shut_program_error(game);
+    write_map(game);
     mlx_loop(game->mlx);
-
 }

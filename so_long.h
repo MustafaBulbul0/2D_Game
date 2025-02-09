@@ -3,6 +3,8 @@
 
 # define size 64
 
+#include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include "library/get_next_line/get_next_line.h"
@@ -20,6 +22,7 @@ typedef struct s_game
     void *ground_img;
     void *wall_img;
     void *collect_img;
+    void *trap_img;
     void *exit_img;
     void *ptr_win;
 
