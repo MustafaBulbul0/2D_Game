@@ -1,5 +1,36 @@
 #include "so_long.h"
 
+void move_player(t_game *game, int new_x, int new_y)
+{
+    if (new_x < 0 || new_y < 0 || new_y >= count_row(game) || new_x >= (int)strlen(game->map[new_y]))
+        shut_program_error(game);
+    if (game->map[new_y][new_x] != '1')
+    {
+        mlx_put_image_to_window(game->mlx, game->ptr_win, game->ground_img, game->player_x * 64, game->player_y * 64);
+        game->player_x = new_x;
+        game->player_y = new_y;
+        mlx_put_image_to_window(game->mlx, game->ptr_win, game->player_img, game->player_x * 64, game->player_y * 64);
+    }
+    if (new_x == game->exit_x && new_y == game->exit_y)
+        exit (0);
+}
+
+int key_press(int keycode, t_game *game)
+{
+    if (keycode == 65307)
+        shut_program_error(game);
+    else if (keycode == 119)
+        move_player(game, game->player_x, game->player_y - 1);
+    else if (keycode == 115)
+        move_player(game, game->player_x, game->player_y + 1);
+    else if (keycode == 97)
+        move_player(game, game->player_x - 1, game->player_y);
+    else if (keycode == 100)
+        move_player(game, game->player_x + 1, game->player_y);
+    return (0);
+}
+
+
 void    write_map(t_game *game)
 {
     int fd;
@@ -16,9 +47,9 @@ void    write_map(t_game *game)
     game->ground_img = mlx_xpm_file_to_image(game->mlx, "image/back_ground.xpm", &img_width, &img_height);
     game->collect_img = mlx_xpm_file_to_image(game->mlx, "image/coin.xpm", &img_width, &img_height);
     game->exit_img = mlx_xpm_file_to_image(game->mlx, "image/exit.xpm", &img_width, &img_height);
-    game->trap_img = mlx_xpm_file_to_image(game->mlx, "image/trap.xpm", &img_width, &img_height);
+    game->player_img = mlx_xpm_file_to_image(game->mlx, "image/player.xpm", &img_width, &img_height);
         
-        if (!game->wall_img || !game->ground_img || !game->collect_img || !game->exit_img || !game->trap_img)
+        if (!game->wall_img || !game->ground_img || !game->collect_img || !game->exit_img || !game->player_img)
     {
         close(fd);
         shut_program_error(game);
@@ -36,14 +67,21 @@ void    write_map(t_game *game)
             else if (line[x] == 'C')
                 mlx_put_image_to_window(game->mlx, game->ptr_win, game->collect_img, x*64, y*64);
             else if (line[x] == 'E')
+            {
                 mlx_put_image_to_window(game->mlx, game->ptr_win, game->exit_img, x*64, y*64);
+                game->exit_x = x;
+                game->exit_y = y;
+            }
             else if (line[x] == 'P')
-                mlx_put_image_to_window(game->mlx, game->ptr_win, game->trap_img, x*64, y*64);
+            {
+                mlx_put_image_to_window(game->mlx, game->ptr_win, game->player_img, x*64, y*64);
+                game->player_x = x;
+                game->player_y = y;
+            }
             x++;
         }
         free(line);
         line = get_next_line(fd);
-        printf("%d", y);
         y++;
     }
     close(fd);
@@ -102,5 +140,7 @@ int main(int argc,char **argv)
     if (!game->ptr_win)
         shut_program_error(game);
     write_map(game);
+    mlx_key_hook(game->ptr_win, key_press, game);
+
     mlx_loop(game->mlx);
 }

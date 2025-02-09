@@ -30,6 +30,10 @@ typedef struct s_game
     int total_collect;
     int screen_x;
     int screen_y;
+    int player_x;
+    int player_y;
+    int exit_x;
+    int exit_y;
 
     char *file_name;
 
