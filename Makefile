@@ -6,14 +6,14 @@ PRINTF_DIR = ./library/ft_printf
 LIBFT_DIR = ./library/libft
 GNL_DIR = ./library/get_next_line
 
-CFLAGS = -Wall -Wextra -Werror -I$(GNL_DIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR)
+CFLAGS = -Wall -Wextra -Werror -I$(GNL_DIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I$(MLX_DIR)
 MLX_FLAGS = -L$(MLX_DIR) -lmlx -lX11 -lXext -lm
 
 SRCS = main.c \
        ./utils/free.c \
        ./utils/utils_one.c \
-	   ./utils/utils_two.c \
-	   ./utils/utils_three.c \
+       ./utils/utils_two.c \
+       ./utils/utils_three.c \
        $(GNL_DIR)/get_next_line.c \
        $(GNL_DIR)/get_next_line_utils.c
 
@@ -35,8 +35,6 @@ clean:
 
 fclean: clean
 	${RM} ${NAME}
-	${RM} $(LIBFT_DIR)/libft.a
-	${RM} $(PRINTF_DIR)/libftprintf.a
 
 re: fclean all
 

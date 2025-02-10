@@ -52,6 +52,7 @@ void move_player(t_game *game, int new_x, int new_y)
         game->player_x = new_x;
         game->player_y = new_y;
         mlx_put_image_to_window(game->mlx, game->ptr_win, game->player_img, game->player_x * 64, game->player_y * 64);
+        ft_printf("%d\n", ++game->counter);
     }
     if (new_x == game->exit_x && new_y == game->exit_y)
     {
@@ -72,7 +73,5 @@ int key_press(int keycode, t_game *game)
         move_player(game, game->player_x - 1, game->player_y);
     else if (keycode == 100)
         move_player(game, game->player_x + 1, game->player_y);
-    if (keycode == 119 || keycode == 115 || keycode == 97 || keycode == 100)
-        ft_printf("%d\n", ++game->counter);
     return (0);
 }
