@@ -16,6 +16,7 @@
 typedef struct s_game
 {
     char **map;
+    char *file_name;
 
     void *mlx;
     void *player_img;
@@ -36,11 +37,16 @@ typedef struct s_game
     int exit_y;
     int counter;
 
-    char *file_name;
-
 } t_game;
 
 void    shut_program_error(t_game *game);
-int count_row(t_game *game);
+int     count_row(t_game *game);
+int     key_press(int keycode, t_game *game);
+void    move_player(t_game *game, int new_x, int new_y);
+t_game  *init_game(char **argv);
+void    write_map(t_game *game);
+void    write_map_2(t_game *game,char *line, int fd);
+void    write_map_3(t_game *game,char *line, int x, int y);
+char    **read_map(t_game *game);
 
 #endif

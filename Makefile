@@ -12,6 +12,8 @@ MLX_FLAGS = -L$(MLX_DIR) -lmlx -lX11 -lXext -lm
 SRCS = main.c \
        ./utils/free.c \
        ./utils/utils_one.c \
+	   ./utils/utils_two.c \
+	   ./utils/utils_three.c \
        $(GNL_DIR)/get_next_line.c \
        $(GNL_DIR)/get_next_line_utils.c
 
