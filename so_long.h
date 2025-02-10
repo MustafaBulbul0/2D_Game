@@ -34,6 +34,7 @@ typedef struct s_game
     int player_y;
     int exit_x;
     int exit_y;
+    int counter;
 
     char *file_name;
 

@@ -27,6 +27,8 @@ int key_press(int keycode, t_game *game)
         move_player(game, game->player_x - 1, game->player_y);
     else if (keycode == 100)
         move_player(game, game->player_x + 1, game->player_y);
+    if (keycode == 119 || keycode == 115 || keycode == 97 || keycode == 100)
+        ft_printf("%d\n", ++game->counter);
     return (0);
 }
 
@@ -137,6 +139,7 @@ int main(int argc,char **argv)
     if (!game)
         return (-1);
     game->ptr_win = mlx_new_window(game->mlx, game->screen_x, game->screen_y, "mario");
+    game->counter = 0;
     if (!game->ptr_win)
         shut_program_error(game);
     write_map(game);
