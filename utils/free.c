@@ -5,6 +5,7 @@ static void    free_game(t_game *game);
 void    shut_program_error(t_game *game)
 {
     free_game(game);
+    ft_printf("Error\n");
     exit(EXIT_FAILURE);
 }
 

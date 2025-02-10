@@ -7,6 +7,7 @@ LIBFT_DIR = ./library/libft
 GNL_DIR = ./library/get_next_line
 
 CFLAGS = -Wall -Wextra -Werror -I$(GNL_DIR) -I$(LIBFT_DIR) -I$(PRINTF_DIR) -I$(MLX_DIR)
+CFLAGS2 = -g
 MLX_FLAGS = -L$(MLX_DIR) -lmlx -lX11 -lXext -lm
 
 SRCS = main.c \

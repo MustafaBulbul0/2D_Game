@@ -32,7 +32,7 @@ int count_row(t_game *game)
     }
     count = 0;
     line = get_next_line(fd);
-    while (line)
+    while (line && line[0] != '\n')
     {
         count++;
         free(line);

@@ -1,7 +1,7 @@
 #ifndef SO_LONG
 # define SO_LONG
 
-# define size 64
+# define SIZE 64
 
 #include <stdio.h>
 #include <string.h>
@@ -48,5 +48,7 @@ void    write_map(t_game *game);
 void    write_map_2(t_game *game,char *line, int fd);
 void    write_map_3(t_game *game,char *line, int x, int y);
 char    **read_map(t_game *game);
+void map_control(t_game *control);
+
 
 #endif

@@ -3,9 +3,14 @@
 int main(int argc,char **argv)
 {
     t_game *game;
+    t_game *control;
     
     if(argc != 2)
         return (1);
+    control = init_game(argv);
+    if (!control)
+       return (-1);
+    map_control(control);
     game = init_game(argv);
     if (!game)
         return (-1);

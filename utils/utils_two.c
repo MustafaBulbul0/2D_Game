@@ -88,7 +88,7 @@ char **read_map(t_game *game)
     while (++i < row_num)
         map[i] = get_next_line(fd);
     close(fd);
-    game->screen_y = row_num * size;
-    game->screen_x = strlen(map[0]) * size;
+    game->screen_y = row_num * SIZE;
+    game->screen_x = (strlen(map[0]) - 1) * SIZE;
     return (map);
 }
