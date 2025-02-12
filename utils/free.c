@@ -44,22 +44,23 @@ static void	free_map(t_game *game)
 	free(game->map);
 }
 
-static void	free_textures(t_game *game)
+static void free_textures(t_game *game)
 {
-	if (!game->mlx)
-		return ;
-	if (game->player_img)
-		mlx_destroy_image(game->mlx, game->player_img);
-	if (game->ground_img)
-		mlx_destroy_image(game->mlx, game->ground_img);
-	if (game->wall_img)
-		mlx_destroy_image(game->mlx, game->wall_img);
-	if (game->collect_img)
-		mlx_destroy_image(game->mlx, game->collect_img);
-	if (game->trap_img)
-		mlx_destroy_image(game->mlx, game->trap_img);
-	if (game->exit_img)
-		mlx_destroy_image(game->mlx, game->exit_img);
+    if (game->mlx)
+    {
+        if (game->player_img)
+            mlx_destroy_image(game->mlx, game->player_img);
+        if (game->ground_img)
+            mlx_destroy_image(game->mlx, game->ground_img);
+        if (game->wall_img)
+            mlx_destroy_image(game->mlx, game->wall_img);
+        if (game->collect_img)
+            mlx_destroy_image(game->mlx, game->collect_img);
+        if (game->trap_img)
+            mlx_destroy_image(game->mlx, game->trap_img);
+        if (game->exit_img)
+            mlx_destroy_image(game->mlx, game->exit_img);
+    }
 }
 
 static void	free_window(t_game *game)

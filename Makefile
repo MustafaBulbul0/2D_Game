@@ -16,6 +16,7 @@ SRCS = main.c \
        ./utils/control_one.c \
        ./utils/control_two.c \
        ./utils/utils_two.c \
+	   ./utils/map_man.c \
        $(GNL_DIR)/get_next_line.c \
        $(GNL_DIR)/get_next_line_utils.c
 

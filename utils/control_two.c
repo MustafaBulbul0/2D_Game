@@ -1,5 +1,7 @@
 #include "./../so_long.h"
 
+static void	map_control4_con(t_game *game, char **map);
+
 void	flood_fill(char **map, t_size size, t_size begin)
 {
 	if (map[begin.y][begin.x] == 'E')
@@ -48,17 +50,25 @@ void	map_control4(t_game *game)
 	char	**map;
 	t_size	size;
 	t_size	begin;
-	int		i[2];
 
 	map = ft_strdup_2d((const char **)game->map);
 	if (!map)
-		return;
+	{
+	    clear_2d_pointer(map);
+	    shut_program_error(game);
+	}
 	player_init(game);
 	size.x = game->screen_x / SIZE;
 	size.y = game->screen_y / SIZE;
 	begin.x = game->player_x;
 	begin.y = game->player_y;
 	flood_fill(map, size, begin);
+	map_control4_con(game, map);
+}
+static void	map_control4_con(t_game *game, char **map)
+{
+	int	i[2];
+
 	i[0] = -1;
 	while (map[++i[0]])
 	{
@@ -66,7 +76,10 @@ void	map_control4(t_game *game)
 		while (map[i[0]][++i[1]])
 		{
 			if (!(map[i[0]][i[1]] == 'F' || map[i[0]][i[1]] == '1' || map[i[0]][i[1]] == '\n'))
+			{	
+				clear_2d_pointer(map);
 				shut_program_error(game);
+			}
 		}
 	}
 	clear_2d_pointer(map);

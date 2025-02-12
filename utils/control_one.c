@@ -1,5 +1,4 @@
 #include "../so_long.h"
-#include <stdio.h>
 
 static  void    map_control0(t_game *control);
 static void	map_control1(t_game *control);
@@ -19,21 +18,21 @@ static  void    map_control0(t_game *control)
 {
     char    **map;
     char    l;
-    int     i;
-    int     j;
+    int     i[2];
 
-    i = -1;
-    if (control->total_coin <= 0)
-        shut_program_error(control);
+    i[0] = -1;
     map = ft_strdup_2d((const char **)control->map);
     if (!map)
-        shut_program_error(control);
-    while (map[++i])
+	{
+	    clear_2d_pointer(map);
+	    shut_program_error(control);
+	}
+    while (map[++i[0]])
     {
-        j = -1;
-        while (map[i][++j])
+        i[1] = -1;
+        while (map[i[0]][++i[1]])
         {
-            l = map[i][j];
+            l = map[i[0]][i[1]];
             if (l != 'E' && l != 'P' && l != '1' && l != '0' && l != 'C' && l != '\n')
             {
                 clear_2d_pointer(map);
@@ -106,6 +105,8 @@ static void	map_control3(t_game *control)
 	char	*f_name;
 	int		i;
 
+	if (control->total_coin <= 0)
+        shut_program_error(control);
 	map = control->map;
 	i = 0;
 	while (map[i])

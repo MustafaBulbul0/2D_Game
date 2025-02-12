@@ -3,8 +3,6 @@
 
 # define SIZE 64
 
-# include <stdio.h>
-# include <string.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include "library/get_next_line/get_next_line.h"
@@ -45,17 +43,14 @@ typedef struct s_size
 
 void	shut_program_success(t_game *game);
 void	shut_program_error(t_game *game);
-int		count_row(t_game *game);
+int		count_row(char *file_name);
 int		key_press(int keycode, t_game *game);
-//void	move_player(t_game *game, int new_x, int new_y);
 t_game	*init_game(char *argv);
 void	write_map(t_game *game);
-void	write_map0(t_game *game);
-void	write_map_2(t_game *game, char *line, int fd);
-void	write_map_3(t_game *game, char *line, int x, int y);
 char	**read_map(t_game *game);
 void	map_control(t_game *control);
 void	map_control4(t_game *game);
+void    map_man(char *file_name);
 void	free_game(t_game *game);
 
 #endif
