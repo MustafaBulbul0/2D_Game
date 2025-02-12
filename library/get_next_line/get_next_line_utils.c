@@ -3,46 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mustafa <mustafa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mubulbul <mubulbul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:33:51 by mustafa           #+#    #+#             */
-/*   Updated: 2025/02/11 23:33:55 by mustafa          ###   ########.fr       */
+/*   Updated: 2025/02/12 13:50:16 by mubulbul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-size_t	ft_strlen(const char *len)
-{
-	size_t	i;
-
-	i = 0;
-	if (!len)
-		return (0);
-	while (len[i] != '\0')
-		i++;
-	return (i);
-}
-
-char	*ft_strdup(const char *str)
-{
-	char	*ptr;
-	int		i;
-
-	i = 0;
-	if (!str)
-		return (NULL);
-	ptr = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
-	if (!ptr)
-		return (NULL);
-	while (str[i])
-	{
-		ptr[i] = str[i];
-		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
-}
 
 char	*ft_strndup(const char *str, size_t n)
 {

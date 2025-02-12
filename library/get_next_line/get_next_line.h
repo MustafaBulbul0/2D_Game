@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mustafa <mustafa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mubulbul <mubulbul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:34:07 by mustafa           #+#    #+#             */
-/*   Updated: 2025/02/11 23:34:09 by mustafa          ###   ########.fr       */
+/*   Updated: 2025/02/12 13:50:52 by mubulbul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,7 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
-size_t	ft_strlen(const char *len);
-char	*ft_strdup(const char *str);
 char	*ft_strndup(const char *str, size_t n);
-char	*ft_strchr(const char *str, int ch);
-char	*ft_strjoin(char const *s1, char const *s2);
 int		ft_set_d(char **data);
 char	*ft_free(char *buf, char *adress);
 

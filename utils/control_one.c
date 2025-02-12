@@ -1,43 +1,74 @@
 #include "../so_long.h"
+#include <stdio.h>
 
+static  void    map_control0(t_game *control);
 static void	map_control1(t_game *control);
 static void	map_control2(t_game *control);
 static void	map_control3(t_game *control);
 
 void	map_control(t_game *control)
 {
+    map_control0(control);
 	map_control1(control);
 	map_control2(control);
 	map_control3(control);
+    map_control4(control);
+}
+
+static  void    map_control0(t_game *control)
+{
+    char    **map;
+    char    l;
+    int     i;
+    int     j;
+
+    i = -1;
+    if (control->total_coin <= 0)
+        shut_program_error(control);
+    map = ft_strdup_2d((const char **)control->map);
+    if (!map)
+        shut_program_error(control);
+    while (map[++i])
+    {
+        j = -1;
+        while (map[i][++j])
+        {
+            l = map[i][j];
+            if (l != 'E' && l != 'P' && l != '1' && l != '0' && l != 'C' && l != '\n')
+            {
+                clear_2d_pointer(map);
+                shut_program_error(control);
+            }
+        }  
+    }
+    clear_2d_pointer(map);
 }
 
 static void	map_control1(t_game *control)
 {
-	int		x;
-	int		fd;
-	int		count[2];
+	int		count[4];
 	char	*line;
 
-	fd = open(control->file_name, O_RDONLY);
-	if (fd < 0)
+	count[3] = open(control->file_name, O_RDONLY);
+	if (count[3] < 0)
 		shut_program_error(control);
 	count[0] = 0;
 	count[1] = 0;
-	line = get_next_line(fd);
+	line = get_next_line(count[3]);
 	while (line != NULL)
 	{
-		x = -1;
-		while (line[++x] != '\0')
+		count[2] = -1;
+		while (line[++count[2]] != '\0')
 		{
-			if (line[x] == 'E')
+			if (line[count[2]] == 'E')
 				count[0]++;
-			if (line[x] == 'P')
+			if (line[count[2]] == 'P')
 				count[1]++;
 		}
 		free(line);
-		line = get_next_line(fd);
+		line = get_next_line(count[3]);
 	}
-	close(fd);
+	close(count[3]);
 	if (count[0] != 1 || count[1] != 1)
 		shut_program_error(control);
 }

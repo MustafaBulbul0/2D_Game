@@ -3,60 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mustafa <mustafa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mubulbul <mubulbul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:33:59 by mustafa           #+#    #+#             */
-/*   Updated: 2025/02/11 23:34:02 by mustafa          ###   ########.fr       */
+/*   Updated: 2025/02/12 15:44:00 by mubulbul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char	*ft_strchr(const char *str, int ch)
-{
-	unsigned char	new_ch;
-
-	if (!str)
-		return (NULL);
-	new_ch = (unsigned char)ch;
-	while (*str)
-	{
-		if (*str == new_ch)
-			return ((char *)str);
-		str++;
-	}
-	if (new_ch == '\0')
-		return ((char *)str);
-	return (NULL);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	size_t	total_size;
-	char	*arr;
-	size_t	i;
-	size_t	arr_index;
-
-	i = 0;
-	arr_index = 0;
-	total_size = ft_strlen(s1) + ft_strlen(s2) + 1;
-	arr = malloc(total_size);
-	if (arr == NULL)
-		return (NULL);
-	while (s1[i] != '\0')
-	{
-		arr[arr_index++] = s1[i];
-		i++;
-	}
-	i = 0;
-	while (s2[i] != '\0')
-	{
-		arr[arr_index++] = s2[i];
-		i++;
-	}
-	arr[arr_index] = '\0';
-	return (arr);
-}
+#include "libft.h"
 
 static char	*extract_line(char **last_address)
 {
@@ -78,6 +33,11 @@ static char	*extract_line(char **last_address)
 	line = ft_strndup(*last_address, len);
 	temp = ft_strdup(*last_address + len);
 	free(*last_address);
+	if (temp && *temp == '\0')
+	{
+		free(temp);
+		temp = NULL;
+	}
 	*last_address = temp;
 	return (line);
 }

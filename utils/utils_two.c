@@ -1,4 +1,4 @@
-#include "../so_long.h"
+#include "./../so_long.h"
 
 void	write_map(t_game *game)
 {
@@ -64,7 +64,6 @@ void	write_map_3(t_game *game, char *line, int x, int y)
 			game->ground_img, x * 64, y * 64);
 	else if (line[x] == 'C')
 	{
-		game->total_coin++;
 		mlx_put_image_to_window(game->mlx, game->ptr_win,
 			game->collect_img, x * 64, y * 64);
 	}
@@ -84,25 +83,44 @@ void	write_map_3(t_game *game, char *line, int x, int y)
 	}
 }
 
-char	**read_map(t_game *game)
+void	move_player(t_game *game, int new_x, int new_y)
 {
-	char	**map;
-	int		row_num;
-	int		i;
-	int		fd;
+	if (new_x < 0 || new_y < 0
+		|| new_y >= count_row(game)
+		|| new_x >= (game->screen_x / SIZE))
+		shut_program_error(game);
+	if (game->map[new_y][new_x] == 'E' && game->total_coin > 0)
+		return ;
+	if (game->map[new_y][new_x] != '1')
+	{
+		if (game->map[new_y][new_x] == 'C')
+		{
+			game->total_coin--;
+			game->map[new_y][new_x] = '0';
+		}
+		mlx_put_image_to_window(game->mlx, game->ptr_win,
+			game->ground_img, game->player_x * 64, game->player_y * 64);
+		game->player_x = new_x;
+		game->player_y = new_y;
+		mlx_put_image_to_window(game->mlx, game->ptr_win,
+			game->player_img, game->player_x * 64, game->player_y * 64);
+		ft_printf("%d\n", ++game->counter);
+	}
+	if (new_x == game->exit_x && new_y == game->exit_y && game->total_coin == 0)
+		shut_program_success(game);
+}
 
-	i = -1;
-	row_num = count_row(game);
-	map = ft_calloc(row_num + 1, sizeof(char *));
-	if (!map)
+int	key_press(int keycode, t_game *game)
+{
+	if (keycode == 65307)
 		shut_program_error(game);
-	fd = open(game->file_name, O_RDONLY);
-	if (fd < 0)
-		shut_program_error(game);
-	while (++i < row_num)
-		map[i] = get_next_line(fd);
-	close(fd);
-	game->screen_y = row_num * SIZE;
-	game->screen_x = (strlen(map[0]) - 1) * SIZE;
-	return (map);
+	else if (keycode == 119)
+		move_player(game, game->player_x, game->player_y - 1);
+	else if (keycode == 115)
+		move_player(game, game->player_x, game->player_y + 1);
+	else if (keycode == 97)
+		move_player(game, game->player_x - 1, game->player_y);
+	else if (keycode == 100)
+		move_player(game, game->player_x + 1, game->player_y);
+	return (0);
 }

@@ -11,6 +11,12 @@ void	shut_program_error(t_game *game)
 	exit(EXIT_FAILURE);
 }
 
+void	shut_program_success(t_game *game)
+{
+	free_game(game);
+	exit(EXIT_SUCCESS);
+}
+
 void	free_game(t_game *game)
 {
 	if (!game)
