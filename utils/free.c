@@ -1,19 +1,20 @@
 #include "../so_long.h"
 
 static void	free_textures(t_game *game);
-static void	free_map(t_game *game);
-static void	free_window(t_game *game);
+static void print_tux(int i);
 
 void	shut_program_error(t_game *game)
 {
 	free_game(game);
 	ft_printf("Error\n");
+	print_tux(0);
 	exit(EXIT_FAILURE);
 }
 
 void	shut_program_success(t_game *game)
 {
 	free_game(game);
+	print_tux(1);
 	exit(EXIT_SUCCESS);
 }
 
@@ -21,27 +22,17 @@ void	free_game(t_game *game)
 {
 	if (!game)
 		return ;
-	free_map(game);
+	clear_2d_pointer(game->map);
 	free_textures(game);
-	free_window(game);
+	if (!game->mlx)
+		return ;
+	if (game->ptr_win)
+		mlx_destroy_window(game->mlx, game->ptr_win);
+	mlx_destroy_display(game->mlx);
+	free(game->mlx);
 	if (game->file_name)
 		free(game->file_name);
 	free(game);
-}
-
-static void	free_map(t_game *game)
-{
-	int	i;
-
-	if (!game->map)
-		return ;
-	i = 0;
-	while (game->map[i])
-	{
-		free(game->map[i]);
-		i++;
-	}
-	free(game->map);
 }
 
 static void free_textures(t_game *game)
@@ -63,12 +54,28 @@ static void free_textures(t_game *game)
     }
 }
 
-static void	free_window(t_game *game)
+static void print_tux(int i)
 {
-	if (!game->mlx)
-		return ;
-	if (game->ptr_win)
-		mlx_destroy_window(game->mlx, game->ptr_win);
-	mlx_destroy_display(game->mlx);
-	free(game->mlx);
+	if (i == 1)
+	{
+	ft_printf("             .--.  \n");
+    ft_printf("            | ^_^ | \n");
+    ft_printf("            |:_/  | \n");
+    ft_printf("           //   \\ \\ \n");
+    ft_printf("          (|     | ) \n");
+    ft_printf("         /'\\_   _/`\\ \n");
+    ft_printf("         \\___)=(___/ \n");
+    ft_printf("<<<<<<<<<< CONGRATULATIONS >>>>>>>>>>\n");
+	}
+	else
+	{
+	ft_printf("             .--.  \n");
+    ft_printf("            | T_T | \n");
+    ft_printf("            |:_/  | \n");
+    ft_printf("           //   \\ \\ \n");
+    ft_printf("          (|     | ) \n");
+    ft_printf("         /'\\_   _/`\\ \n");
+    ft_printf("         \\___)=(___/ \n");
+    ft_printf("<<<<<<<<<< FAILED >>>>>>>>>>\n");
+	}
 }

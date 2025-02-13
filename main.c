@@ -1,5 +1,7 @@
 #include "so_long.h"
 
+static int shut_program_error2(void *new);
+
 int	main(int argc, char **argv)
 {
 	t_game	*control;
@@ -23,5 +25,15 @@ int	main(int argc, char **argv)
 		shut_program_error(game);
     write_map(game);
 	mlx_key_hook(game->ptr_win, key_press, game);
+	mlx_hook(game->ptr_win, 17, 0, shut_program_error2, game);
 	mlx_loop(game->mlx);
+}
+
+static int shut_program_error2(void *new)
+{
+	t_game *game;
+
+	game = (t_game *)new;
+	shut_program_error(game);
+	return (0);
 }

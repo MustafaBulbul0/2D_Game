@@ -84,3 +84,15 @@ static void	map_control4_con(t_game *game, char **map)
 	}
 	clear_2d_pointer(map);
 }
+
+void map_control5(t_game *game)
+{
+	char **map;
+
+	map = ft_strdup_2d((const char **)game->map);
+	if (map[0][0] == '\n')
+	{
+		clear_2d_pointer(map);
+		shut_program_error(game);
+	}
+}

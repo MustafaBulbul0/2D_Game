@@ -12,6 +12,7 @@ void	map_control(t_game *control)
 	map_control2(control);
 	map_control3(control);
     map_control4(control);
+	//map_control5(control);
 }
 
 static  void    map_control0(t_game *control)

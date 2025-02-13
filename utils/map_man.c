@@ -1,79 +1,74 @@
 #include "./../so_long.h"
 
-static char	**read_file(char *file_name);
-static void	write_new_map(char **new_map, char *file_name);
+static char	**read_file(char *file_name, int row_num);
+char	**map_man(char *file_name);
+static char *n_line(char *line);
 
-void	map_man(char *file_name)
-{
-	int		row_num;
-	char	**new_map;
-	char	c;
+static char *n_line(char *line)  
+{  
+    char	*n_line;  
+    size_t	size;  
 
-	new_map = read_file(file_name);
-	row_num = count_row(file_name);
-	while (row_num > 0)
-	{
-		c = new_map[row_num - 1][0];
-		if (!(c >= 9 && c <= 13) && c != 32)
-			break ;
-		free(new_map[row_num - 1]);
-		new_map[row_num - 1] = NULL;
-		row_num--;
-	}
-	write_new_map(new_map, file_name);
+    if (!line || (size = ft_strlen(line)) == 0 || line[size - 1] == '\n')  
+        return line;  
+
+    n_line = (char *)ft_calloc(size + 2, sizeof(char));  
+    if (!n_line)  
+    {  
+        free(line);  
+        exit(EXIT_FAILURE);  
+    }  
+
+    ft_strlcpy(n_line, line, size + 1);  
+    n_line[size] = '\n';  
+    n_line[size + 1] = '\0';  
+    free(line);
+    return n_line;  
+}  
+
+static char	**read_file(char *file_name, int row_num)  
+{  
+    char	**map;  
+    char	*line;
+    char    *tmp;
+    int		i[2];  
+    int		fd;  
+
+    map = ft_calloc(row_num + 1, sizeof(char *));  
+    if (!map)  
+        exit(EXIT_FAILURE);  
+
+    fd = open(file_name, O_RDONLY);  
+    if (fd < 0)  
+    {  
+        clear_2d_pointer(map);  
+        exit(EXIT_FAILURE);
+    }  
+
+    i[0] = -1;  
+    i[1] = 0;  
+    line = get_next_line(fd);  
+    while (++i[0] < row_num)  
+    {  
+        if (line && line[0] != '\n')  
+        {  
+            line = n_line(line);  
+            map[i[1]++] = line;  
+        }  
+        tmp = line;  
+        line = get_next_line(fd);  
+        free(tmp);
+    }
+    close(fd);  
+    return (map);  
 }
 
-static char	**read_file(char *file_name)
-{
+char	**map_man(char *file_name)  
+{  
 	char	**map;
-	int		row_num;
-	int		i;
-	int		fd;
+    int		c_row;  
 
-	row_num = count_row(file_name);
-	map = ft_calloc(row_num + 1, sizeof(char *));
-	if (!map)
-		exit(EXIT_FAILURE);
-	fd = open(file_name, O_RDONLY);
-	if (fd < 0)
-	{
-		clear_2d_pointer(map);
-		return (NULL);
-	}
-	i = 0;
-	while (i < row_num)
-	{
-		map[i] = get_next_line(fd);
-		i++;
-	}
-	close(fd);
-	return (map);
-}
-
-static void	write_new_map(char **new_map, char *file_name)
-{
-	int		fd;
-	int		i;
-	int		len;
-
-	if (!new_map || !file_name)
-		return ;
-	fd = open(file_name, O_WRONLY | O_TRUNC);
-	if (fd < 0)
-		return ;
-	i = 0;
-	while (new_map[i])
-	{
-		if (new_map[i] != NULL)
-		{
-			len = ft_strlen(new_map[i]);
-			write(fd, new_map[i], len);
-			if (len > 0 && new_map[i][len - 1] != '\n')
-				write(fd, "\n", 1);
-		}
-		free(new_map[i]);
-		i++;
-	}
-	free(new_map);
-	close(fd);
-}
+    c_row = count_row(file_name);  
+	map = read_file(file_name, c_row);
+    return (map);  
+}  

@@ -50,7 +50,8 @@ void	write_map(t_game *game);
 char	**read_map(t_game *game);
 void	map_control(t_game *control);
 void	map_control4(t_game *game);
-void    map_man(char *file_name);
+char    **map_man(char *file_name);
 void	free_game(t_game *game);
+void map_control5(t_game *game);
 
 #endif

@@ -71,9 +71,10 @@ int	count_row(char *file_name)
 	}
 	count = 0;
 	line = get_next_line(fd);
-	while (line && line[0] != '\n')
+	while (line)
 	{
-		count++;
+		if (line[0] != '\n')
+			count++;
 		free(line);
 		line = get_next_line(fd);
 	}
