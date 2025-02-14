@@ -13,10 +13,10 @@ MLX_FLAGS = -L$(MLX_DIR) -lmlx -lX11 -lXext -lm
 SRCS = main.c \
        ./utils/free.c \
        ./utils/utils_one.c \
-       ./utils/control_one.c \
-       ./utils/control_two.c \
        ./utils/utils_two.c \
 	   ./utils/map_man.c \
+       ./utils/control_one.c \
+       ./utils/control_two.c \
        $(GNL_DIR)/get_next_line.c \
        $(GNL_DIR)/get_next_line_utils.c
 

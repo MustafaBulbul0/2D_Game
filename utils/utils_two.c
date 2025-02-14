@@ -1,27 +1,28 @@
 #include "./../so_long.h"
 
 static void write_map_1(t_game *game);
-static void	write_map_2(t_game *game, char *line, int fd);
+static void	write_map_2(t_game *game, char **map);
 static void	write_map_3(t_game *game, char *line, int x, int y);
 
 void	write_map(t_game *game)
 {
-	int		fd;
-	char	*line;
+	char **map;
 
-	fd = open(game->file_name, O_RDONLY);
-	if (fd < 0)
-		shut_program_error(game);
+    map = ft_strdup_2d((const char **)game->map);
+    if (!map)
+	{
+	    clear_2d_pointer(map);
+	    shut_program_error(game);
+	}
 	write_map_1(game);	
 	if (!game->wall_img || !game->ground_img || !game->collect_img
 		|| !game->exit_img || !game->player_img)
 	{
-		close(fd);
+		clear_2d_pointer(map);
 		shut_program_error(game);
 	}
-	line = get_next_line(fd);
-	write_map_2(game, line, fd);
-	close(fd);
+	write_map_2(game, map);
+	clear_2d_pointer(map);
 }
 
 static void write_map_1(t_game *game)
@@ -43,24 +44,22 @@ static void write_map_1(t_game *game)
 		&img_width, &img_height);
 }
 
-static void	write_map_2(t_game *game, char *line, int fd)
+static void	write_map_2(t_game *game, char **map)
 {
-	int	x;
-	int	y;
+    int f[3];
 
-	x = 0;
-	y = 0;
-	while (line != NULL)
+	f[0] = 0;
+	f[1] = 0;
+    f[2] = 0;
+	while (map[f[0]] != NULL)
 	{
-		x = 0;
-		while (line[x] != '\0')
+		f[1] = 0;
+		while (map[f[0]][f[1]] != '\0')
 		{
-			write_map_3(game, line, x, y);
-			x++;
+			write_map_3(game, map[f[0]], f[1], f[0]);
+			f[1]++;
 		}
-		free(line);
-		line = get_next_line(fd);
-		y++;
+		f[0]++;
 	}
 }
 

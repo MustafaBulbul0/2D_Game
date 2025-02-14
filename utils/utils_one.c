@@ -13,9 +13,13 @@ t_game	*init_game(char *argv)
 	new->mlx = mlx_init();
 	if (!new->mlx)
 		shut_program_error(new);
-	new->map = read_map(new);
-	if (!new->map)
-		shut_program_error(new);
+	new->map = map_man(new->file_name);
+    if (!new->map)
+    {
+        free(new->file_name);
+        free(new);
+        return (NULL);
+    }
     new->total_coin = 0;
     while (new->map[++i[0]])
     {
@@ -26,34 +30,9 @@ t_game	*init_game(char *argv)
                 new->total_coin++;
         }
     }
+	new->screen_x = (i[1] - 1) * SIZE;
+	new->screen_y = count_row(new->file_name) * SIZE;
 	return (new);
-}
-
-char	**read_map(t_game *game)
-{
-	char	**map;
-	int		row_num;
-	int		i;
-	int		fd;
-
-	i = -1;
-	row_num = count_row(game->file_name);
-	map = ft_calloc(row_num + 1, sizeof(char *));
-	if (!map)
-		shut_program_error(game);
-	fd = open(game->file_name, O_RDONLY);
-	if (fd < 0)
-    {
-        if (map) 
-            free(map);
-        shut_program_error(game);
-    }
-	while (++i < row_num)
-		map[i] = get_next_line(fd);
-	close(fd);
-	game->screen_y = row_num * SIZE;
-	game->screen_x = (strlen(map[0]) - 1) * SIZE;
-	return (map);
 }
 
 int	count_row(char *file_name)
@@ -65,7 +44,6 @@ int	count_row(char *file_name)
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
 	{
-		ft_printf("Invalid fd in count_row\n");
 		close(fd);
 		exit(EXIT_FAILURE);
 	}
@@ -81,7 +59,6 @@ int	count_row(char *file_name)
 	close(fd);
 	return (count);
 }
-
 
 void	move_player(t_game *game, int new_x, int new_y)
 {

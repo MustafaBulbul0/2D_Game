@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mubulbul <mubulbul@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mustafa <mustafa@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:19:47 by mubulbul          #+#    #+#             */
-/*   Updated: 2025/02/12 15:45:20 by mubulbul         ###   ########.fr       */
+/*   Updated: 2025/02/13 23:22:14 by mustafa          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,20 @@ static int	count_strs(const char **str)
 	return (i);
 }
 
-void	clear_2d_pointer(char **str)
+void clear_2d_pointer(char **map)
 {
-	int	i;
+    int i;
 
-	i = 0;
-	if (str == NULL)
-		return ;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
+    if (!map)
+        return;
+
+    i = 0;
+    while (map[i])
+    {
+        free(map[i]);
+        map[i] = NULL;
+        i++;
+    }
+    free(map);
+    map = NULL;
 }

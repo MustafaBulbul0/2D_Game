@@ -47,11 +47,10 @@ int		count_row(char *file_name);
 int		key_press(int keycode, t_game *game);
 t_game	*init_game(char *argv);
 void	write_map(t_game *game);
-char	**read_map(t_game *game);
 void	map_control(t_game *control);
 void	map_control4(t_game *game);
-char    **map_man(char *file_name);
+void	map_control5(t_game *game);
+char	**map_man(char *file_name);
 void	free_game(t_game *game);
-void map_control5(t_game *game);
 
 #endif

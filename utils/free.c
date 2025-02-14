@@ -1,7 +1,7 @@
 #include "../so_long.h"
 
 static void	free_textures(t_game *game);
-static void print_tux(int i);
+static void	print_tux(int i);
 
 void	shut_program_error(t_game *game)
 {
@@ -22,7 +22,11 @@ void	free_game(t_game *game)
 {
 	if (!game)
 		return ;
-	clear_2d_pointer(game->map);
+	if (game->map)
+	{
+		clear_2d_pointer(game->map);
+		game->map = NULL;
+	}
 	free_textures(game);
 	if (!game->mlx)
 		return ;
@@ -35,47 +39,47 @@ void	free_game(t_game *game)
 	free(game);
 }
 
-static void free_textures(t_game *game)
+static void	free_textures(t_game *game)
 {
-    if (game->mlx)
-    {
-        if (game->player_img)
-            mlx_destroy_image(game->mlx, game->player_img);
-        if (game->ground_img)
-            mlx_destroy_image(game->mlx, game->ground_img);
-        if (game->wall_img)
-            mlx_destroy_image(game->mlx, game->wall_img);
-        if (game->collect_img)
-            mlx_destroy_image(game->mlx, game->collect_img);
-        if (game->trap_img)
-            mlx_destroy_image(game->mlx, game->trap_img);
-        if (game->exit_img)
-            mlx_destroy_image(game->mlx, game->exit_img);
-    }
+	if (game->mlx)
+	{
+		if (game->player_img)
+			mlx_destroy_image(game->mlx, game->player_img);
+		if (game->ground_img)
+			mlx_destroy_image(game->mlx, game->ground_img);
+		if (game->wall_img)
+			mlx_destroy_image(game->mlx, game->wall_img);
+		if (game->collect_img)
+			mlx_destroy_image(game->mlx, game->collect_img);
+		if (game->trap_img)
+			mlx_destroy_image(game->mlx, game->trap_img);
+		if (game->exit_img)
+			mlx_destroy_image(game->mlx, game->exit_img);
+	}
 }
 
-static void print_tux(int i)
+static void	print_tux(int i)
 {
 	if (i == 1)
 	{
-	ft_printf("             .--.  \n");
-    ft_printf("            | ^_^ | \n");
-    ft_printf("            |:_/  | \n");
-    ft_printf("           //   \\ \\ \n");
-    ft_printf("          (|     | ) \n");
-    ft_printf("         /'\\_   _/`\\ \n");
-    ft_printf("         \\___)=(___/ \n");
-    ft_printf("<<<<<<<<<< CONGRATULATIONS >>>>>>>>>>\n");
+		ft_printf("             .--.  \n");
+		ft_printf("            | ^_^ | \n");
+		ft_printf("            |:_/  | \n");
+		ft_printf("           //   \\ \\ \n");
+		ft_printf("          (|     | ) \n");
+		ft_printf("         /'\\_   _/`\\ \n");
+		ft_printf("         \\___)=(___/ \n");
+		ft_printf("<<<<<<<<<< CONGRATULATIONS >>>>>>>>>>\n");
 	}
 	else
 	{
-	ft_printf("             .--.  \n");
-    ft_printf("            | T_T | \n");
-    ft_printf("            |:_/  | \n");
-    ft_printf("           //   \\ \\ \n");
-    ft_printf("          (|     | ) \n");
-    ft_printf("         /'\\_   _/`\\ \n");
-    ft_printf("         \\___)=(___/ \n");
-    ft_printf("<<<<<<<<<< FAILED >>>>>>>>>>\n");
+		ft_printf("             .--.  \n");
+		ft_printf("            | T_T | \n");
+		ft_printf("            |:_/  | \n");
+		ft_printf("           //   \\ \\ \n");
+		ft_printf("          (|     | ) \n");
+		ft_printf("         /'\\_   _/`\\ \n");
+		ft_printf("         \\___)=(___/ \n");
+		ft_printf("<<<<<<<<<< FAILED >>>>>>>>>>\n");
 	}
 }
