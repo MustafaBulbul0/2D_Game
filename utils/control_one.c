@@ -36,8 +36,8 @@ static void	map_control0(t_game *control, char **map)
 		while (map[i[0]][++i[1]])
 		{
 			l = map[i[0]][i[1]];
-			if (l != 'E' && l != 'P' && l != '1'
-				&& l != '0' && l != 'C' && l != '\n')
+			if (l != 'E' && l != 'P' && l != '1' && l != '0' && l != 'C'
+				&& l != '\n')
 			{
 				clear_2d_pointer(map);
 				shut_program_error(control);
@@ -87,8 +87,8 @@ static void	map_control2(t_game *control)
 			if (i == 0 && map[i][j] != '1')
 				shut_program_error(control);
 			if (i != 0 && i != ((control->screen_y / SIZE) - 1)
-				&& (map[i][0] != '1'
-				|| map[i][((control->screen_x / SIZE) - 1)] != '1'))
+				&& (map[i][0] != '1' || map[i][((control->screen_x / SIZE)
+					- 1)] != '1'))
 				shut_program_error(control);
 			if (i == ((control->screen_y / SIZE) - 1) && map[i][j] != '1')
 				shut_program_error(control);
@@ -119,8 +119,8 @@ static void	map_control3(t_game *control, char **map)
 	}
 	f_name = control->file_name;
 	i = ft_strlen(f_name);
-	if (f_name[i - 4] != '.' || f_name[i - 3] != 'b'
-		|| f_name[i - 2] != 'e' || f_name[i - 1] != 'r')
+	if (f_name[i - 4] != '.' || f_name[i - 3] != 'b' || f_name[i - 2] != 'e'
+		|| f_name[i - 1] != 'r')
 	{
 		clear_2d_pointer(map);
 		shut_program_error(control);

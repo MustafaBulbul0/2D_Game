@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mustafa <mustafa@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mubulbul <mubulbul@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:19:47 by mubulbul          #+#    #+#             */
-/*   Updated: 2025/02/13 23:22:14 by mustafa          ###   ########.fr       */
+/*   Updated: 2025/02/14 13:19:21 by mubulbul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**ft_strdup_2d(const char **str)
 		return (NULL);
 	i = 0;
 	str_count = count_strs(str);
-	ptr = (char **)ft_calloc((str_count + 1),  sizeof(char *));
+	ptr = (char **)ft_calloc((str_count + 1), sizeof(char *));
 	if (!ptr)
 		return (NULL);
 	while (str[i])
@@ -73,20 +73,19 @@ static int	count_strs(const char **str)
 	return (i);
 }
 
-void clear_2d_pointer(char **map)
+void	clear_2d_pointer(char **map)
 {
-    int i;
+	int	i;
 
-    if (!map)
-        return;
-
-    i = 0;
-    while (map[i])
-    {
-        free(map[i]);
-        map[i] = NULL;
-        i++;
-    }
-    free(map);
-    map = NULL;
+	if (!map)
+		return ;
+	i = 0;
+	while (map[i])
+	{
+		free(map[i]);
+		map[i] = NULL;
+		i++;
+	}
+	free(map);
+	map = NULL;
 }

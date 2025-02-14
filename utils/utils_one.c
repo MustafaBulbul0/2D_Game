@@ -3,9 +3,9 @@
 t_game	*init_game(char *argv)
 {
 	t_game	*new;
-    int     i[2];
+	int		i[2];
 
-    i[0] = -1;
+	i[0] = -1;
 	new = ft_calloc(1, sizeof(t_game));
 	if (!new)
 		return (NULL);
@@ -14,22 +14,22 @@ t_game	*init_game(char *argv)
 	if (!new->mlx)
 		shut_program_error(new);
 	new->map = map_man(new->file_name);
-    if (!new->map)
-    {
-        free(new->file_name);
-        free(new);
-        return (NULL);
-    }
-    new->total_coin = 0;
-    while (new->map[++i[0]])
-    {
-        i[1] = -1;
-        while (new->map[i[0]][++i[1]])
-        {
-            if (new->map[i[0]][i[1]] == 'C')
-                new->total_coin++;
-        }
-    }
+	if (!new->map)
+	{
+		free(new->file_name);
+		free(new);
+		return (NULL);
+	}
+	new->total_coin = 0;
+	while (new->map[++i[0]])
+	{
+		i[1] = -1;
+		while (new->map[i[0]][++i[1]])
+		{
+			if (new->map[i[0]][i[1]] == 'C')
+				new->total_coin++;
+		}
+	}
 	new->screen_x = (i[1] - 1) * SIZE;
 	new->screen_y = count_row(new->file_name) * SIZE;
 	return (new);
@@ -62,8 +62,7 @@ int	count_row(char *file_name)
 
 void	move_player(t_game *game, int new_x, int new_y)
 {
-	if (new_x < 0 || new_y < 0
-		|| new_y >= count_row(game->file_name)
+	if (new_x < 0 || new_y < 0 || new_y >= count_row(game->file_name)
 		|| new_x >= (game->screen_x / SIZE))
 		shut_program_error(game);
 	if (game->map[new_y][new_x] == 'E' && game->total_coin > 0)
@@ -75,12 +74,12 @@ void	move_player(t_game *game, int new_x, int new_y)
 			game->total_coin--;
 			game->map[new_y][new_x] = '0';
 		}
-		mlx_put_image_to_window(game->mlx, game->ptr_win,
-			game->ground_img, game->player_x * SIZE, game->player_y * SIZE);
+		mlx_put_image_to_window(game->mlx, game->ptr_win, game->ground_img,
+			game->player_x * SIZE, game->player_y * SIZE);
 		game->player_x = new_x;
 		game->player_y = new_y;
-		mlx_put_image_to_window(game->mlx, game->ptr_win,
-			game->player_img, game->player_x * SIZE, game->player_y * SIZE);
+		mlx_put_image_to_window(game->mlx, game->ptr_win, game->player_img,
+			game->player_x * SIZE, game->player_y * SIZE);
 		ft_printf("%d\n", ++game->counter);
 	}
 	if (new_x == game->exit_x && new_y == game->exit_y && game->total_coin == 0)
