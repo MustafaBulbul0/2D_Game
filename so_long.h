@@ -43,14 +43,14 @@ typedef struct s_size
 
 void	shut_program_success(t_game *game);
 void	shut_program_error(t_game *game);
-int		count_row(char *file_name);
+int		count_row(t_game *game);
 int		key_press(int keycode, t_game *game);
 t_game	*init_game(char *argv);
 void	write_map(t_game *game);
 void	map_control(t_game *control);
 void	map_control4(t_game *game);
 void	map_control5(t_game *game);
-char	**map_man(char *file_name);
+char	**map_man(t_game *game);
 void	free_game(t_game *game);
 
 #endif

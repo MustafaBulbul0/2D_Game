@@ -2,7 +2,7 @@
 
 static char	**read_file(char *file_name, int row_num);
 static char	*n_line(char *line);
-char		**map_man(char *file_name);
+char		**map_man(t_game *game);
 
 static char	*n_line(char *line)
 {
@@ -63,14 +63,14 @@ static char	**read_file(char *file_name, int row_num)
 	return (map);
 }
 
-char	**map_man(char *file_name)
+char	**map_man(t_game *game)
 {
 	char	**map;
 	int		c_row;
 
-	c_row = count_row(file_name);
+	c_row = count_row(game);
 	if (c_row <= 0)
-		shut_program_error(NULL);
-	map = read_file(file_name, c_row);
+		shut_program_error(game);
+	map = read_file(game->file_name, c_row);
 	return (map);
 }

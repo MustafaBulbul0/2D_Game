@@ -13,7 +13,7 @@ t_game	*init_game(char *argv)
 	new->mlx = mlx_init();
 	if (!new->mlx)
 		shut_program_error(new);
-	new->map = map_man(new->file_name);
+	new->map = map_man(new);
 	if (!new->map)
 	{
 		free(new->file_name);
@@ -31,21 +31,23 @@ t_game	*init_game(char *argv)
 		}
 	}
 	new->screen_x = (i[1] - 1) * SIZE;
-	new->screen_y = count_row(new->file_name) * SIZE;
+	new->screen_y = count_row(new) * SIZE;
 	return (new);
 }
 
-int	count_row(char *file_name)
+int	count_row(t_game *game)
 {
 	int		count;
 	char	*line;
 	int		fd;
+	char	*file_name;
 
+	file_name = game->file_name;
 	fd = open(file_name, O_RDONLY);
 	if (fd < 0)
 	{
 		close(fd);
-		exit(EXIT_FAILURE);
+		shut_program_error(game);
 	}
 	count = 0;
 	line = get_next_line(fd);
@@ -62,7 +64,7 @@ int	count_row(char *file_name)
 
 void	move_player(t_game *game, int new_x, int new_y)
 {
-	if (new_x < 0 || new_y < 0 || new_y >= count_row(game->file_name)
+	if (new_x < 0 || new_y < 0 || new_y >= count_row(game)
 		|| new_x >= (game->screen_x / SIZE))
 		shut_program_error(game);
 	if (game->map[new_y][new_x] == 'E' && game->total_coin > 0)
